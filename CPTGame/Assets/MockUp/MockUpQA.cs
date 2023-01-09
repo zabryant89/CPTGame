@@ -40,8 +40,69 @@ public class MockUpQA : MonoBehaviour
         return quest3[0];
     }
 
+    public string[] GetAnswers1()
+    {
+        string[] tmp = new string[4];
+        for (int i = 1; i < 5; i++)
+        {
+            tmp[i - 1] = quest1[i];
+        }
+        return tmp;
+    }
+
+    public string[] GetAnswers2()
+    {
+        string[] tmp = new string[4];
+        for (int i = 1; i < 5; i++)
+        {
+            tmp[i - 1] = quest2[i];
+        }
+        return tmp;
+    }
+
+    public string[] GetAnswers3()
+    {
+        string[] tmp = new string[4];
+        for (int i = 1; i < 5; i++)
+        {
+            tmp[i - 1] = quest3[i];
+        }
+        return tmp;
+    }
+
     public string[] GenAnswers(string[] questSet)
     {
-        return quest2;
+        string[] tmp = new string[4]; //assign a tmp set to store all answers
+        //insert the answers into tmp
+        for (int i = 0; i < 4; i++)
+        {
+            tmp[i] = questSet[i + 1]; //important: answers are from index 1 - 4
+        }
+
+        RandomizeSet(tmp, 0); //method to randomize the answers, start at index 0
+        return tmp;
+    }
+
+    public string[] RandomizeSet(string[] rand, int iteration)
+    {
+        if (iteration < 4)
+        {
+            //iteration: when = 4, stop
+            int swap = Random.Range(0, 3);
+
+            string tmp; //hold value if we need to do a swap
+            //if the swap # and the iteration # differ: then we swap those two values in the array!
+            if (iteration != swap)
+            {
+                tmp = rand[swap];
+                rand[swap] = rand[iteration];
+                rand[iteration] = tmp;
+            }
+            return RandomizeSet(rand, iteration + 1);
+        }
+        else
+        {
+            return rand;
+        }
     }
 }
