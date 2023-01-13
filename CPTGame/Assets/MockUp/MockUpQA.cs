@@ -1,3 +1,9 @@
+/*Author: Zachary Bryant
+ * NOTES: This is intentionally completed as a non-generalized program.  There are options here to give students
+ *      that may be given to help them learn how to generalize solutions so it can accept the three questions assigned
+ *      OR more!
+ */
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,18 +16,6 @@ public class MockUpQA : MonoBehaviour
     private string quest2Ans = "Red";
     private string[] quest3 = { "Complete the quote: \"With great power, comes great _______\"", "Responsibility", "Control", "Disgust", "Happiness" };
     private string quest3Ans = "Responsibility";
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     //getters:
     //note: hardcoded but we can change that later.
@@ -70,6 +64,22 @@ public class MockUpQA : MonoBehaviour
         return tmp;
     }
 
+    public string GetCorrect1()
+    {
+        return quest1Ans;
+    }
+
+    public string GetCorrect2()
+    {
+        return quest2Ans;
+    }
+
+    public string GetCorrect3()
+    {
+        return quest3Ans;
+    }
+
+    //generalized solution (may not work)
     public string[] GenAnswers(string[] questSet)
     {
         string[] tmp = new string[4]; //assign a tmp set to store all answers
