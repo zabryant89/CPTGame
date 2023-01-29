@@ -1,0 +1,1 @@
+This folder is to hold the old scripts that were intentionally left in a poor state for one reason or another to help students evaluate and improve code.
