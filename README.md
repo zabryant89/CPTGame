@@ -3,4 +3,4 @@
 
   Opening in Unity:
     1. Create local repository (clone from github)
-    2. In unity: Click menu arrow next to open --> Add project from disk -->Select CPT Game folder
+    2. In unity: Click menu arrow next to open --> Add project from disk --> Select CPT Game folder
