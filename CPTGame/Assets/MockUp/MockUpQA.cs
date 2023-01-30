@@ -11,6 +11,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class MockUpQA : MonoBehaviour
 {
     private string[] quest1 = { "What day does the New Year begin?","January 1st", "Everyday", "June 1st", "This is ridiculous"};
@@ -20,28 +21,37 @@ public class MockUpQA : MonoBehaviour
     private string[] quest3 = { "Complete the quote: \"With great power, comes great _______\"", "Responsibility", "Control", "Disgust", "Happiness" };
     //private string quest3Ans = "Responsibility";
 
-    private List<string[]> questions = new List<string[]>();
+    private List<string[]> questions;
+
+    //this must initialize first, therefore:
+    public GameObject screen;
     
 
     private void Start()
     {
+        questions = new List<string[]>();
         questions.Add(quest1);
         questions.Add(quest3);
         questions.Insert(1, quest2); //this was for testing, keeping it here!
-        Debug.Log("pausing for debugging");
+        Debug.Log("questions in Start: " + questions.Count);
+
+        
+        EnableScreen();
     }
 
     //getters:
     //note: hardcoded but we can change that later.
 
-    //retrieve a number of questions equal to the value passed (not randomized)
-    public string[] GetQuestions(int num, string[] val)
+    //retrieve a number of questions equal to the value passed (not randomized yet)
+    public List<string[]> GetQuestions(int num)
     {
-        /*foreach (string[] val in questions)
-        {
-            return val[0];
-        }*/
-        val = new string[num];
+        List<string[]> val = new List<string[]>();
+
+        List<string[]> temp = questions;
+        Randomize(temp); //randomization occurs here
+        
+        Debug.Log("questions size: " + questions.Count);
+        Debug.Log("num value: " + num);
 
         if (num <= 0)
         {
@@ -51,13 +61,31 @@ public class MockUpQA : MonoBehaviour
         {
             for (int i = 0; i < num; i++)
             {
-                val[i] = questions[i][0];
+                val.Add(questions[i]);
+                Debug.Log("pause for debugging");
             }
 
             return val;
         }
     }
 
+    private void Randomize(List<string[]> rand)
+    {
+        List<string[]> temp = new List<string[]>();
+        
+        for (int i = 0; i < rand.Count; i++)
+        {
+            int roll = Random.Range(0, i);
+            temp.Insert(roll, rand[i]);
+        }
+
+        rand = temp;
+    }
+
+    private void EnableScreen()
+    {
+        screen.SetActive(true);
+    }
 
     public string[] GetAnswers1()
     {

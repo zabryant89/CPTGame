@@ -18,8 +18,8 @@ public class QuestionHandler : MonoBehaviour
     public MockUpQA template; //assign this in unity, easy peasy (click and drag)
     public TextMeshProUGUI question; //this is the displayed question, will change as answers are given
     //private string question1, question2, question3; //hard coded, but we can easily change to be dynamic/universal
-    private string[] questionBank; //holds questions AND answers (all answers) for each question
-    private string[] questionPool; //holds the questions, with correct answer, and 3 random wrong answers to use
+    private List<string[]> questionBank; //holds questions AND answers (all answers) for each question
+    private List<string[]> questionPool; //holds the questions, with correct answer, and 3 random wrong answers to use
     private string[] correct; //will assign correct values here per question
     public Button[] buttons = new Button[4]; //array assigned in Unity
     int correctAns; //0 = no answer, 1 = true, 2 = false
@@ -28,7 +28,8 @@ public class QuestionHandler : MonoBehaviour
 
 
     // Start is called before the first frame update
-    void Start()
+    //void OnEnable()
+    void OnEnable()
     {
         //set correct to no answer
         correctAns = 0;
@@ -39,17 +40,27 @@ public class QuestionHandler : MonoBehaviour
 
         //initialize the text box with the question, we will grab all 3 questions here
         //question = this.GetComponent<TextMeshProUGUI>(); //this line for instantiating without Unity GUI
-        questionBank = template.GetQuestions(3, questionBank);
+        questionBank = template.GetQuestions(3);
 
         /*next we initialize each button with the answers... with steps:
         *      1 - Grab question 1 answers into an array (remember: our array total size is 5, but the answers are index 1-4)
+        *                   CHANGE: also need to store the correct answer here!
         *      2 - Send array to be randomized
         *      3 - Input each answer into a button!
         *      4 - pull text for the correct answer
         *      5 - setup "listeners" for each button (note this can also be done strictly through unity)
         */
 
-        //step 1 + 2: grab question 1 answers into an array, then randomize them
+        //step 1 + 2: grab question 1 answers into an array, then randomize them (including change: store the correct answer!)
+        questionPool = new List<string[]>();
+        correct = new string[questionBank.Count];
+
+        for (int i = 0; i < questionBank.Count; i++)
+        {
+            correct[i] = questionBank[i][1];
+            Debug.Log("Stop");
+        }
+        
         
 
         //step 3: insert each answer into a button
@@ -66,9 +77,23 @@ public class QuestionHandler : MonoBehaviour
         buttons[3].onClick.AddListener(delegate { AnswerCheck(buttons[3]); } );
     }
 
+    private void ShuffleAnswers()
+    {
+        //enter logic here... below is after brain was too worked.  taking a break
+        /*string[] temp = new string[4];
+        int check = 0;
+        temp[0] = questionBank[check][1]; //correct answer must always be in list
+        for (int i = 2; i < questionBank[check].Length; i++)
+        {
+
+        }*/
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if (Time.deltaTime <= 0.00 )
+            questionBank = template.GetQuestions(3);
         /*//just need a check for the correct int
         if (correctAns == 1 || correctAns == 2)
         {
@@ -100,7 +125,7 @@ public class QuestionHandler : MonoBehaviour
                 AssignButtons(finished);
             }
         }*/
-        
+
     }
 
     private void AssignButtons(string[] ans)
