@@ -4,35 +4,60 @@
  *      OR more!
  */
 
+//@@@ TODO: finished the new question setup system.  Just need to do some testing with randomization!
+//          I plan to use "Insert" function for lists in order to accomplish the random generation!
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MockUpQA : MonoBehaviour
 {
-    private string[] quest1 = { "What day does the New Year begin?", "Everyday", "January 1st", "June 1st", "This is ridiculous"};
-    private string quest1Ans = "January 1st";
+    private string[] quest1 = { "What day does the New Year begin?","January 1st", "Everyday", "June 1st", "This is ridiculous"};
+    //private string quest1Ans = "January 1st";
     private string[] quest2 = { "What color are sith lightsabers?", "Red", "Blue", "Purple", "Green"};
-    private string quest2Ans = "Red";
+    //private string quest2Ans = "Red";
     private string[] quest3 = { "Complete the quote: \"With great power, comes great _______\"", "Responsibility", "Control", "Disgust", "Happiness" };
-    private string quest3Ans = "Responsibility";
+    //private string quest3Ans = "Responsibility";
+
+    private List<string[]> questions = new List<string[]>();
+    
+
+    private void Start()
+    {
+        questions.Add(quest1);
+        questions.Add(quest3);
+        questions.Insert(1, quest2); //this was for testing, keeping it here!
+        Debug.Log("pausing for debugging");
+    }
 
     //getters:
     //note: hardcoded but we can change that later.
-    public string GetQuestion1()
+
+    //retrieve a number of questions equal to the value passed (not randomized)
+    public string[] GetQuestions(int num, string[] val)
     {
-        return quest1[0];
+        /*foreach (string[] val in questions)
+        {
+            return val[0];
+        }*/
+        val = new string[num];
+
+        if (num <= 0)
+        {
+            return null;
+        }
+        else
+        {
+            for (int i = 0; i < num; i++)
+            {
+                val[i] = questions[i][0];
+            }
+
+            return val;
+        }
     }
 
-    public string GetQuestion2()
-    {
-        return quest2[0];
-    }
-
-    public string GetQuestion3()
-    {
-        return quest3[0];
-    }
 
     public string[] GetAnswers1()
     {
@@ -64,20 +89,7 @@ public class MockUpQA : MonoBehaviour
         return tmp;
     }
 
-    public string GetCorrect1()
-    {
-        return quest1Ans;
-    }
-
-    public string GetCorrect2()
-    {
-        return quest2Ans;
-    }
-
-    public string GetCorrect3()
-    {
-        return quest3Ans;
-    }
+   
 
     //generalized solution (may not work)
     public string[] GenAnswers(string[] questSet)
