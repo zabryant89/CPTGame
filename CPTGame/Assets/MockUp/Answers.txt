@@ -1,0 +1,12 @@
+Format: Correct | Incorrect | Incorrect | Incorrect
+
+Use of pointers | Architecture Neutral | Dynamic | Object-oriented
+JDB | JDK | JRE | JVM
+8 | 4 | 2 | 32
+4 | 8 | 2 | 32
+A statically typed programming language | A dynamically typed programming language | Both a statically and dynamically typed programming language | Trash
+Calling the object's constructor | Creating a new variable with that object's name | Reusing a global static object the new purpose | Offering a blood sacrifice
+Java Runtime Environment | Joe Rogan Experience | Java Runtime Exception | Java Runtime Execution
+2144783647 | There is no limit | 1000000000 | Integers don't store numeric values
+for i in range(x) | while(maxLoop = 0) | do{//this}while(//that) | for(;;)
+>> | * | % | //

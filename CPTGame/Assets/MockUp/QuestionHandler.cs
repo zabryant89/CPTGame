@@ -15,11 +15,11 @@ using TMPro;
 
 public class QuestionHandler : MonoBehaviour
 {
-    public MockUpQA template; //assign this in unity, easy peasy (click and drag)
+    public MockUpQA template; //assign this in unity, easy peasy (click and drag) - references our MockUpQA script
     public TextMeshProUGUI question; //this is the displayed question, will change as answers are given
     //private string question1, question2, question3; //hard coded, but we can easily change to be dynamic/universal
-    private List<string[]> questionBank; //holds questions AND answers (all answers) for each question
-    private List<string[]> questionPool; //holds the questions, with correct answer, and 3 random wrong answers to use
+    private List<string[]> questionBank; //holds questions AND answers (all answers) for all questions
+    private List<string[]> questionPool; //used to display the current question, the correct answer, and up to 3 wrong answers. Randomizing the answers
     private string[] correct; //will assign correct values here per question
     public Button[] buttons = new Button[4]; //array assigned in Unity
     int correctAns; //0 = no answer, 1 = true, 2 = false
@@ -40,7 +40,7 @@ public class QuestionHandler : MonoBehaviour
 
         //initialize the text box with the question, we will grab all 3 questions here
         //question = this.GetComponent<TextMeshProUGUI>(); //this line for instantiating without Unity GUI
-        questionBank = template.GetQuestions(3);
+        questionBank = template.GetQuestions(10);
 
         /*next we initialize each button with the answers... with steps:
         *      1 - Grab question 1 answers into an array (remember: our array total size is 5, but the answers are index 1-4)
@@ -56,19 +56,33 @@ public class QuestionHandler : MonoBehaviour
         correct = new string[questionBank.Count];
 
         for (int i = 0; i < questionBank.Count; i++)
-        {
             correct[i] = questionBank[i][1];
-            Debug.Log("Stop");
+
+        for (int i = 0; i < questionBank.Count; i++)
+        {
+            questionPool.Add(questionBank[i]);
         }
-        
-        
 
-        //step 3: insert each answer into a button
+        //step 3: insert each answer into a button and display the question!
         //note: we can get all the correct answers now, makes no difference!
+        question.text = questionPool[0][0];
+        string[] tmp = new string[4];
         
+        for (int i = 0; i < 4; i++)
+            tmp[i] = questionPool[0][i + 1];
+        tmp = template.GenAnswers(tmp);
+        for (int i = 0; i < 4; i++)
+            tmp[i] = questionPool[0][i + 1];
 
-        //step 4: get the correct answers
-        
+        for (int i = 0; i < 4; i++)
+        {
+            buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = questionPool[0][i + 1];
+        }
+
+        Debug.Log("Stop");
+
+        //step 4: get the correct answers - IGNORE STEP, MOVED TO STEP 1
+
 
         //step 5: listeners for buttons
         buttons[0].onClick.AddListener(delegate { AnswerCheck(buttons[0]); } );
@@ -77,17 +91,6 @@ public class QuestionHandler : MonoBehaviour
         buttons[3].onClick.AddListener(delegate { AnswerCheck(buttons[3]); } );
     }
 
-    private void ShuffleAnswers()
-    {
-        //enter logic here... below is after brain was too worked.  taking a break
-        /*string[] temp = new string[4];
-        int check = 0;
-        temp[0] = questionBank[check][1]; //correct answer must always be in list
-        for (int i = 2; i < questionBank[check].Length; i++)
-        {
-
-        }*/
-    }
 
     // Update is called once per frame
     void Update()

@@ -7,6 +7,8 @@
 //@@@ TODO: finished the new question setup system.  Just need to do some testing with randomization!
 //          I plan to use "Insert" function for lists in order to accomplish the random generation!
 
+using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -21,7 +23,11 @@ public class MockUpQA : MonoBehaviour
     private string[] quest3 = { "Complete the quote: \"With great power, comes great _______\"", "Responsibility", "Control", "Disgust", "Happiness" };
     //private string quest3Ans = "Responsibility";
 
+    //file stuff
     private List<string[]> questions;
+    private string questionsFilename;
+    private string answersFilename;
+    private string[] lines, lines2;
 
     //this must initialize first, therefore:
     public GameObject screen;
@@ -29,10 +35,51 @@ public class MockUpQA : MonoBehaviour
 
     private void Start()
     {
+        string[] question;
+        string[,] answers;
         questions = new List<string[]>();
-        questions.Add(quest1);
+        questionsFilename = "Assets/MockUp/Questions.txt";
+        answersFilename = "Assets/MockUp/Answers.txt";
+        /*questions.Add(quest1);
         questions.Add(quest3);
-        questions.Insert(1, quest2); //this was for testing, keeping it here!
+        questions.Insert(1, quest2); //this was for testing, keeping it here!*/
+
+        lines = File.ReadAllLines(questionsFilename);
+        Debug.Log("Questions has " + lines.Length + " lines");
+
+        question = new string[lines.Length];
+        answers = new string[lines.Length, 4];
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            question[i] = lines[i];
+        }
+
+        lines2 = File.ReadAllLines(answersFilename);
+        Debug.Log("Answers has " + lines2.Length + " lines");
+
+        for (int i = 2; i < lines2.Length; i++)
+        {
+            string[] elements = lines2[i].Split('|');
+            for (int j = 0; j < 4; j++)
+            {
+                answers[i - 2, j] = elements[j];
+            }
+        }
+
+        //time to take it all and put it into the questions array.
+
+        for (int i = 0; i < lines.Length; i++)
+        {
+            string[] elements = new string[5];
+            elements[0] = question[i];
+            for (int j = 0; j < 4; j++)
+            {
+                elements[j + 1] = answers[i, j];
+            }
+            questions.Add(elements);
+        }
+
         Debug.Log("questions in Start: " + questions.Count);
 
         
@@ -48,7 +95,7 @@ public class MockUpQA : MonoBehaviour
         List<string[]> val = new List<string[]>();
 
         List<string[]> temp = questions;
-        Randomize(temp); //randomization occurs here
+        Randomize(temp); //randomization of question order occurs here
         
         Debug.Log("questions size: " + questions.Count);
         Debug.Log("num value: " + num);
@@ -75,7 +122,7 @@ public class MockUpQA : MonoBehaviour
         
         for (int i = 0; i < rand.Count; i++)
         {
-            int roll = Random.Range(0, i);
+            int roll = UnityEngine.Random.Range(0, i);
             temp.Insert(roll, rand[i]);
         }
 
@@ -86,38 +133,6 @@ public class MockUpQA : MonoBehaviour
     {
         screen.SetActive(true);
     }
-
-    public string[] GetAnswers1()
-    {
-        string[] tmp = new string[4];
-        for (int i = 1; i < 5; i++)
-        {
-            tmp[i - 1] = quest1[i];
-        }
-        return tmp;
-    }
-
-    public string[] GetAnswers2()
-    {
-        string[] tmp = new string[4];
-        for (int i = 1; i < 5; i++)
-        {
-            tmp[i - 1] = quest2[i];
-        }
-        return tmp;
-    }
-
-    public string[] GetAnswers3()
-    {
-        string[] tmp = new string[4];
-        for (int i = 1; i < 5; i++)
-        {
-            tmp[i - 1] = quest3[i];
-        }
-        return tmp;
-    }
-
-   
 
     //generalized solution (may not work)
     public string[] GenAnswers(string[] questSet)
@@ -138,7 +153,7 @@ public class MockUpQA : MonoBehaviour
         if (iteration < 4)
         {
             //iteration: when = 4, stop
-            int swap = Random.Range(0, 3);
+            int swap = UnityEngine.Random.Range(0, 3);
 
             string tmp; //hold value if we need to do a swap
             //if the swap # and the iteration # differ: then we swap those two values in the array!
