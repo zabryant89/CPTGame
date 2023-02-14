@@ -23,14 +23,18 @@ public class QuestionHandler : MonoBehaviour
     private string[] correct; //will assign correct values here per question
     public Button[] buttons = new Button[4]; //array assigned in Unity
     int correctAns; //0 = no answer, 1 = true, 2 = false
+    int count; //number of questions iterated.  references by index not actual count
     int correctCount, wrongCount; //counts right and wrong answers
     string[] finished; //used in the end of the game
+    bool gameOver; //is the game over?
 
 
     // Start is called before the first frame update
     //void OnEnable()
     void OnEnable()
     {
+        gameOver = false;
+        count = -1; //starting value
         //set correct to no answer
         correctAns = 0;
 
@@ -65,18 +69,19 @@ public class QuestionHandler : MonoBehaviour
 
         //step 3: insert each answer into a button and display the question!
         //note: we can get all the correct answers now, makes no difference!
-        question.text = questionPool[0][0];
+        //STUDENT WORK: take the code in lines 71 - 83 and place them into a function, replace that function here AND inside the Update function!
+        question.text = questionPool[count + 1][0]; //changed to count + 1 to be consistent with rest of code AND generalized
         string[] tmp = new string[4];
         
         for (int i = 0; i < 4; i++)
-            tmp[i] = questionPool[0][i + 1];
+            tmp[i] = questionPool[count + 1][i + 1];
         tmp = template.GenAnswers(tmp);
         for (int i = 0; i < 4; i++)
-            tmp[i] = questionPool[0][i + 1];
+            questionPool[count + 1][i + 1] = tmp[i];
 
         for (int i = 0; i < 4; i++)
         {
-            buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = questionPool[0][i + 1];
+            buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = questionPool[count + 1][i + 1];
         }
 
         Debug.Log("Stop");
@@ -85,10 +90,10 @@ public class QuestionHandler : MonoBehaviour
 
 
         //step 5: listeners for buttons
-        buttons[0].onClick.AddListener(delegate { AnswerCheck(buttons[0]); } );
-        buttons[1].onClick.AddListener(delegate { AnswerCheck(buttons[1]); } );
-        buttons[2].onClick.AddListener(delegate { AnswerCheck(buttons[2]); } );
-        buttons[3].onClick.AddListener(delegate { AnswerCheck(buttons[3]); } );
+        buttons[0].onClick.AddListener(delegate { AnswerCheck(buttons[0], questionPool, correct); } );
+        buttons[1].onClick.AddListener(delegate { AnswerCheck(buttons[1], questionPool, correct); } );
+        buttons[2].onClick.AddListener(delegate { AnswerCheck(buttons[2], questionPool, correct); } );
+        buttons[3].onClick.AddListener(delegate { AnswerCheck(buttons[3], questionPool, correct); } );
     }
 
 
@@ -97,7 +102,7 @@ public class QuestionHandler : MonoBehaviour
     {
         if (Time.deltaTime <= 0.00 )
             questionBank = template.GetQuestions(3);
-        /*//just need a check for the correct int
+        //just need a check for the correct int
         if (correctAns == 1 || correctAns == 2)
         {
             if (correctAns == 1)
@@ -108,27 +113,38 @@ public class QuestionHandler : MonoBehaviour
             //must reset the correct variable in order to prevent the scenes from infintely jumping!
             correctAns = 0;
 
-            //check what question we are on and go forward accordingly
-            if (question.text == question1)
+            //set next question (count + 1)
+            if (count != questionPool.Count - 1)
             {
-                //need to change the question and buttons
-                question.text = question2;
-                AssignButtons(q2Answers);
-            }
-            else if(question.text == question2)
-            {
-                question.text = question3;
-                AssignButtons(q3Answers);
+                question.text = questionPool[count + 1][0];
+
+                string[] tmp = new string[4];
+                for (int i = 0; i < 4; i++)
+                    tmp[i] = questionPool[count + 1][i + 1];
+                tmp = template.GenAnswers(tmp);
+                for (int i = 0; i < 4; i++)
+                    questionPool[count + 1][i + 1] = tmp[i];
+
+                for (int i = 0; i < 4; i++)
+                {
+                    buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = questionPool[count + 1][i + 1];
+                }
             }
             else
             {
                 question.text = "GAME OVER";
+                gameOver = true;
                 //assign all the text to finished variable
-                finished = new string[] { "Right answers: " + correctCount, "Wrong answers: " + wrongCount, "", "" };
+                finished = new string[] { "Right answers: " + correctCount, "Wrong answers: " + wrongCount, "Close Game", "Close Game" };
                 AssignButtons(finished);
             }
-        }*/
+        }
 
+    }
+
+    private void EndGame()
+    {
+        Application.Quit();
     }
 
     private void AssignButtons(string[] ans)
@@ -143,30 +159,18 @@ public class QuestionHandler : MonoBehaviour
         }
     }
 
-    private void AnswerCheck(Button b)
+    private void AnswerCheck(Button b, List<string[]> pool, string[] ans)
     {
-        /*if (question.text == question1)
+        count++;
+
+        if (gameOver)
+            EndGame();
+        else if (!gameOver)
         {
-            if (b.GetComponentInChildren<TextMeshProUGUI>().text == q1Correct)
+            if (b.GetComponentInChildren<TextMeshProUGUI>().text == correct[count])
                 correctAns = 1;
             else
                 correctAns = 2;
         }
-        else if (question.text == question2)
-        {
-            if (b.GetComponentInChildren<TextMeshProUGUI>().text == q2Correct)
-                correctAns = 1;
-            else
-                correctAns = 2;
-        }
-        else if (question.text == question3)
-        {
-            if (b.GetComponentInChildren<TextMeshProUGUI>().text == q3Correct)
-                correctAns = 1;
-            else
-                correctAns = 2;
-        }
-        else
-            Debug.Log("Game is over");*/
     }
 }

@@ -16,13 +16,6 @@ using UnityEngine;
 
 public class MockUpQA : MonoBehaviour
 {
-    private string[] quest1 = { "What day does the New Year begin?","January 1st", "Everyday", "June 1st", "This is ridiculous"};
-    //private string quest1Ans = "January 1st";
-    private string[] quest2 = { "What color are sith lightsabers?", "Red", "Blue", "Purple", "Green"};
-    //private string quest2Ans = "Red";
-    private string[] quest3 = { "Complete the quote: \"With great power, comes great _______\"", "Responsibility", "Control", "Disgust", "Happiness" };
-    //private string quest3Ans = "Responsibility";
-
     //file stuff
     private List<string[]> questions;
     private string questionsFilename;
@@ -95,7 +88,7 @@ public class MockUpQA : MonoBehaviour
         List<string[]> val = new List<string[]>();
 
         List<string[]> temp = questions;
-        Randomize(temp); //randomization of question order occurs here
+        temp = Randomize(temp); //randomization of question order occurs here
         
         Debug.Log("questions size: " + questions.Count);
         Debug.Log("num value: " + num);
@@ -108,7 +101,7 @@ public class MockUpQA : MonoBehaviour
         {
             for (int i = 0; i < num; i++)
             {
-                val.Add(questions[i]);
+                val.Add(temp[i]);
                 Debug.Log("pause for debugging");
             }
 
@@ -116,7 +109,7 @@ public class MockUpQA : MonoBehaviour
         }
     }
 
-    private void Randomize(List<string[]> rand)
+    private List<string[]> Randomize(List<string[]> rand)
     {
         List<string[]> temp = new List<string[]>();
         
@@ -126,7 +119,7 @@ public class MockUpQA : MonoBehaviour
             temp.Insert(roll, rand[i]);
         }
 
-        rand = temp;
+        return temp;
     }
 
     private void EnableScreen()
@@ -141,7 +134,7 @@ public class MockUpQA : MonoBehaviour
         //insert the answers into tmp
         for (int i = 0; i < 4; i++)
         {
-            tmp[i] = questSet[i + 1]; //important: answers are from index 1 - 4
+            tmp[i] = questSet[i]; //important: answers are from index 1 - 4
         }
 
         RandomizeSet(tmp, 0); //method to randomize the answers, start at index 0
