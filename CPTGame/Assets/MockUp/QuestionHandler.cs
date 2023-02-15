@@ -33,6 +33,12 @@ public class QuestionHandler : MonoBehaviour
     //void OnEnable()
     void OnEnable()
     {
+        foreach (Button but in buttons)
+        {
+            TextMeshProUGUI text = but.GetComponentInChildren<TextMeshProUGUI>();
+            text.overflowMode = TextOverflowModes.Overflow;
+            text.enableWordWrapping = true;
+        }
         gameOver = false;
         count = -1; //starting value
         //set correct to no answer
