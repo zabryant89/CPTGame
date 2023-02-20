@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638123625734601462
-    m_Hash: 4184313569
+      ticks: 638124555149436155
+    m_Hash: 1116932145
   m_LockFileStatus:
     m_FilePath: C:/Users/Naddie/Documents/GitHub/CPTGame/CPTGame/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 638123625734660594
-    m_Hash: 3906278793
+      ticks: 638124555149436155
+    m_Hash: 1507812660
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:

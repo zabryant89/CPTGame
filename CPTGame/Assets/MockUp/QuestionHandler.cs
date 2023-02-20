@@ -165,6 +165,11 @@ public class QuestionHandler : MonoBehaviour
         }
     }
 
+    public string GetCorrect()
+    {
+        return correct[count];
+    }
+
     private void AnswerCheck(Button b, List<string[]> pool, string[] ans)
     {
         count++;
