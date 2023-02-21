@@ -1,3 +1,5 @@
+/* Author: Naddie Mathkour */
+
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -52,7 +54,7 @@ public class Lifeline : MonoBehaviour
         for (int i = 0; i < 4; i++)
             if (temp == qh.buttons[i].GetComponentInChildren<TextMeshProUGUI>().text)
             {
-                qh.buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = "CLICK ME";
+                qh.buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = "CLICK ME"; //careful with changing text, we are using text to check answers. @@@
                 break;
             }
         return true;
