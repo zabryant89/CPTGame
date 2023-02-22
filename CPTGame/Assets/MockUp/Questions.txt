@@ -1,7 +1,7 @@
 Which of the following is not a Java feature?
 _____ is used to find and fix bugs in a Java program.
-How many bytes belong to an Integer variable?
-How many bits belong to a Character variable?
+How many bytes are in an Integer variable?
+How many bits are in a Character variable?
 What statement best describes Java?
 How do you initialize an object in Java?
 What does JRE stand for?
