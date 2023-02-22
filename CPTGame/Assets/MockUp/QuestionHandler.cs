@@ -134,6 +134,9 @@ public class QuestionHandler : MonoBehaviour
                 for (int i = 0; i < 4; i++)
                 {
                     buttons[i].GetComponentInChildren<TextMeshProUGUI>().text = questionPool[count + 1][i + 1];
+                    var colors = buttons[i].colors;
+                    colors.normalColor = Color.white;
+                    buttons[i].colors = colors;
                 }
             }
             else
@@ -167,7 +170,7 @@ public class QuestionHandler : MonoBehaviour
 
     public string GetCorrect()
     {
-        return correct[count];
+        return correct[count+1];
     }
 
     private void AnswerCheck(Button b, List<string[]> pool, string[] ans)
